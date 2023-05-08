@@ -9,25 +9,24 @@ import javafx.stage.Stage;
 
 
 public class Game {
+    int rollCount, roundScore;
 
-    int rollCount = 2;
-    int roundScore = 0;
+    Button refreshButton, rollButton;
+    Label curHighest, curHighestLabel, rollsRem, overAllLabel, overAllScore;
+    Dice diceArr [];
 
-    Label overAllScore, curHighestLabel;
-    Button refreshButton;
 
-    Label rollsRem = new Label ("0");
-    Label curHighest = new Label ("0");
-    Button rollButton = new Button("Click to Play!");
+    void initGameVars() {
+        rollCount = 2;
+        roundScore = 0;
 
-    public void StartGame(Stage primaryStage){
-        // overall score labels container
-        Label overAllLabel = new Label("Overall Score: ");
+        rollsRem = new Label ("0");
+        curHighest = new Label ("0");
+        overAllLabel = new Label("Overall Score: ");
+        rollButton = new Button("Click to Play!");
         overAllScore = new Label("0");
 
-        HBox overAllHbox = new HBox(overAllLabel, overAllScore);
-        overAllHbox.setAlignment(Pos.CENTER);
-        overAllHbox.setPadding(new Insets(20));
+    }
 
         // creates container for diceImage, and sets initial die values
         Dice dice1 = new Dice();
