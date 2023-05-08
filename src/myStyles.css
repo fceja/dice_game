@@ -1,0 +1,26 @@
+
+.label {
+    -fx-text-fill: #eadea6;
+}
+
+.button{
+    -fx-text-fill: #eadea6;
+    -fx-background-color:#738598;
+}
+
+
+#vbox{
+    -fx-background-color: #3c415e;
+    background-color: #3c415e;
+    -fx-text-fill: white;
+    -fx-text-align: center;
+}
+
+#win-color{
+    -fx-text-fill: #1cb3c8;
+
+}
+
+#color-held{
+    -fx-border-color: #1cb3c8;
+}
