@@ -6,7 +6,7 @@ import java.util.Random;
 public class Dice {
 
     int diceValue;
-    int held = 0;// 1 if held, 0 if not
+    int held = 0; // 1 if held, 0 if not
     int diceIndex;
 
     Image diceImage;
@@ -22,43 +22,35 @@ public class Dice {
     }
 
     void setDiePic() {
-
         if (diceValue == 1) {
             diceImage = new Image("file:./images/Dice1.png");
             diceSlot.setImage(diceImage);
-        }
-        else if (diceValue == 2) {
+        } else if (diceValue == 2) {
             diceImage = new Image("file:./images/Dice2.png");
             diceSlot.setImage(diceImage);
-        }
-        else if (diceValue == 3) {
+        } else if (diceValue == 3) {
             diceImage = new Image("file:./images/Dice3.png");
             diceSlot.setImage(diceImage);
-        }
-        else if (diceValue == 4) {
+        } else if (diceValue == 4) {
             diceImage = new Image("file:./images/Dice4.png");
             diceSlot.setImage(diceImage);
-        }
-        else if (diceValue == 5) {
+        } else if (diceValue == 5) {
             diceImage = new Image("file:./images/Dice5.png");
             diceSlot.setImage(diceImage);
-        }
-        else {
+        } else {
             diceImage = new Image("file:./images/Dice6.png");
             diceSlot.setImage(diceImage);
         }
     }
 
     void updatePic() {
-
         switch (diceValue) {
             case 1:
                 if (held == 0) {
                     diceImage = new Image("file:./images/Dice1Held.png");
                     diceSlot.setImage(diceImage);
                     held = 1;
-                }
-                else {
+                } else {
                     diceImage = new Image("file:./images/Dice1.png");
                     diceSlot.setImage(diceImage);
                     held = 0;
@@ -69,8 +61,7 @@ public class Dice {
                     diceImage = new Image("file:./images/Dice2Held.png");
                     diceSlot.setImage(diceImage);
                     held = 1;
-                }
-                else {
+                } else {
                     diceImage = new Image("file:./images/Dice2.png");
                     diceSlot.setImage(diceImage);
                     held = 0;
@@ -81,8 +72,7 @@ public class Dice {
                     diceImage = new Image("file:./images/Dice3Held.png");
                     diceSlot.setImage(diceImage);
                     held = 1;
-                }
-                else {
+                } else {
                     diceImage = new Image("file:./images/Dice3.png");
                     diceSlot.setImage(diceImage);
                     held = 0;
@@ -93,8 +83,7 @@ public class Dice {
                     diceImage = new Image("file:./images/Dice4Held.png");
                     diceSlot.setImage(diceImage);
                     held = 1;
-                }
-                else {
+                } else {
                     diceImage = new Image("file:./images/Dice4.png");
                     diceSlot.setImage(diceImage);
                     held = 0;
@@ -105,8 +94,7 @@ public class Dice {
                     diceImage = new Image("file:./images/Dice5Held.png");
                     diceSlot.setImage(diceImage);
                     held = 1;
-                }
-                else {
+                } else {
                     diceImage = new Image("file:./images/Dice5.png");
                     diceSlot.setImage(diceImage);
                     held = 0;
@@ -117,8 +105,7 @@ public class Dice {
                     diceImage = new Image("file:./images/Dice6Held.png");
                     diceSlot.setImage(diceImage);
                     held = 1;
-                }
-                else {
+                } else {
                     diceImage = new Image("file:./images/Dice6.png");
                     diceSlot.setImage(diceImage);
                     held = 0;
@@ -130,26 +117,18 @@ public class Dice {
         }
     }
 
-    void createRandomStart(Dice dice1, Dice dice2, Dice dice3, Dice dice4, Dice dice5) {
-
+    void createRandomStart(Dice[] diceArr) {
         Random randNum = new Random();
 
-        dice1.diceValue = 1 + randNum.nextInt(6);
-        dice2.diceValue = 1 + randNum.nextInt(6);
-        dice3.diceValue = 1 + randNum.nextInt(6);
-        dice4.diceValue = 1 + randNum.nextInt(6);
-        dice5.diceValue = 1 + randNum.nextInt(6);
-
-        dice1.setDiePic();
-        dice2.setDiePic();
-        dice3.setDiePic();
-        dice4.setDiePic();
-        dice5.setDiePic();
+        for (Dice dice : diceArr) {
+            dice.diceValue = 1 + randNum.nextInt(6);
+            dice.setDiePic();
+        }
     }
 
-    void checkIfRollDie(){
+    void checkIfRollDie() {
         // 1 if held, 0 if not
-        if(held == 0){
+        if (held == 0) {
             Random randNum = new Random();
             diceValue = 1 + randNum.nextInt(6);
             held = 1;
@@ -157,14 +136,12 @@ public class Dice {
         }
     }
 
-    int findCurrScore(Dice dice1, Dice dice2, Dice dice3, Dice dice4, Dice dice5){
-        int[] array = {0, 0, 0, 0, 0, 0};
+    int findCurrScore(Dice[] diceArr) {
+        int[] array = { 0, 0, 0, 0, 0, 0 };
 
-        array = dice1.findTally(array);
-        array = dice2.findTally(array);
-        array = dice3.findTally(array);
-        array = dice4.findTally(array);
-        array = dice5.findTally(array);
+        for (Dice dice : diceArr) {
+            array = dice.findTally(array);
+        }
 
         int found1 = array[0];
         int found2 = array[1];
@@ -173,46 +150,47 @@ public class Dice {
         int found5 = array[4];
         int found6 = array[5];
 
-
         // 5 of a kind
-        if(found1 == 5  || found2 == 5 || found3 == 5 || found4 == 5 || found5 == 5 || found6 == 5){
+        if (found1 == 5 || found2 == 5 || found3 == 5 || found4 == 5 || found5 == 5 || found6 == 5) {
             return 10;
         }
 
         // Straight
-        else if((found1 == 1 && found2 == 1 && found3 == 1 && found4 == 1 && found5 == 1) ||
-                (found2 == 1 && found3 == 1 && found4 == 1 && found5 == 1 && found6==1)){
+        else if ((found1 == 1 && found2 == 1 && found3 == 1 && found4 == 1 && found5 == 1) ||
+                (found2 == 1 && found3 == 1 && found4 == 1 && found5 == 1 && found6 == 1)) {
             return 8;
         }
 
         // 4 of a kind
-        else if(found1 == 4  || found2 == 4 || found3 == 4 || found4 == 4 || found5 == 4 || found6 == 4){
+        else if (found1 == 4 || found2 == 4 || found3 == 4 || found4 == 4 || found5 == 4 || found6 == 4) {
             return 7;
         }
 
         // Full house
-        else if((found1 == 2  || found2 == 2 || found3 == 2 || found4 == 2 || found5 == 2 || found6 == 2) &&
-                (found1 == 3  || found2 == 3 || found3 == 3 || found4 == 3 || found5 == 3 || found6 == 3)){
+        else if ((found1 == 2 || found2 == 2 || found3 == 2 || found4 == 2 || found5 == 2 || found6 == 2) &&
+                (found1 == 3 || found2 == 3 || found3 == 3 || found4 == 3 || found5 == 3 || found6 == 3)) {
             return 6;
         }
 
         // 3 of a kind
-        else if(found1 == 3  || found2 == 3 || found3 == 3 || found4 == 3 || found5 == 3 || found6 == 3){
+        else if (found1 == 3 || found2 == 3 || found3 == 3 || found4 == 3 || found5 == 3 || found6 == 3) {
             return 5;
         }
 
         // 2 pair
-        else if(
-                (found1 == 2  && found2 == 2) || (found1 == 2  && found3 == 2) || (found1 == 2  && found4 == 2) || (found1 == 2  && found5 == 2) || (found1 == 2  && found6 == 2) ||
-                        ((found2 == 2  && found3 == 2) || (found2 == 2  && found4 == 2) || (found2 == 2  && found5 == 2) || (found2 == 2  && found6 == 2)) ||
-                        ((found3 == 2  && found4 == 2) || (found3 == 2  && found5 == 2) || (found3 == 2  && found6 == 2)) ||
-                        ((found4 == 2  && found5 == 2) || (found4 == 2  && found6 == 2)) ||
-                        ((found5 == 2  && found6 == 2))){
+        else if ((found1 == 2 && found2 == 2) || (found1 == 2 && found3 == 2) || (found1 == 2 && found4 == 2)
+                || (found1 == 2 && found5 == 2) || (found1 == 2 && found6 == 2) ||
+                ((found2 == 2 && found3 == 2) || (found2 == 2 && found4 == 2) || (found2 == 2 && found5 == 2)
+                        || (found2 == 2 && found6 == 2))
+                ||
+                ((found3 == 2 && found4 == 2) || (found3 == 2 && found5 == 2) || (found3 == 2 && found6 == 2)) ||
+                ((found4 == 2 && found5 == 2) || (found4 == 2 && found6 == 2)) ||
+                ((found5 == 2 && found6 == 2))) {
             return 4;
         }
 
         // 2 of a kind
-        else if(found1 == 2  || found2 == 2 || found3 == 2 || found4 == 2 || found5 == 2 || found6 == 2){
+        else if (found1 == 2 || found2 == 2 || found3 == 2 || found4 == 2 || found5 == 2 || found6 == 2) {
             return 1;
         }
 
@@ -246,5 +224,4 @@ public class Dice {
         }
         return array;
     }
-
 }
