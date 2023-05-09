@@ -9,7 +9,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Game game = new Game();
-        game.StartGame(primaryStage);
+        Game diceGame = new Game();
+        diceGame.StartGame(primaryStage);
     }
 }
