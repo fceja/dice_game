@@ -117,7 +117,7 @@ public class Dice {
         }
     }
 
-    void createRandomStart(Dice[] diceArr) {
+    static void createRandomStart(Dice[] diceArr) {
         Random randNum = new Random();
 
         for (Dice dice : diceArr) {
@@ -136,7 +136,7 @@ public class Dice {
         }
     }
 
-    int findCurrScore(Dice[] diceArr) {
+    static int findCurrScore(Dice[] diceArr) {
         int[] array = { 0, 0, 0, 0, 0, 0 };
 
         for (Dice dice : diceArr) {
