@@ -126,8 +126,8 @@ public class Dice {
         }
     }
 
-    void checkIfRollDie() {
-        // 1 if held, 0 if not
+    void rollDieIfNotHeld() {
+        // 1 held, 0 not held
         if (held == 0) {
             Random randNum = new Random();
             diceValue = 1 + randNum.nextInt(6);

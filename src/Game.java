@@ -13,57 +13,11 @@ public class Game {
 
     Dice diceArr[];
 
-    Button refreshButton, rollButton;
+    Button restartButton, rollButton;
     Label curHandLabel, rollsRemLabel, overAllScoreLabel;
 
     HBox diceHbox, overAllScoreHbox, scoreRollBox;
     VBox vboxButtons, mainbox;
-
-    void addEventToRollBtn(Dice[] diceArr) {
-        rollButton.setOnAction(event -> {
-            // updates labels
-            curHandLabel.setText("Current Hand: ");
-
-            // checks if the dice should roll
-            if (rollCount != 0) {
-                for (Dice dice : diceArr) {
-                    dice.checkIfRollDie();
-                }
-            }
-
-            rollCount -= 1;
-            rollsRemLabel.setText(String.format("Rolls Remaining: %d", rollCount));
-            roundScore = Dice.findCurrScore(diceArr);
-
-            updateCurrHandDisplay();
-
-            // end of rolls, calculates and asks to continue or exit
-            if (rollCount == 0) {
-                rollButton.setVisible(false);
-                refreshButton.setVisible(true);
-
-                curHandLabel.setText(String.format("Winning Hand --> %s", currHand));
-                curHandLabel.setId("win-color");
-
-                overAllScore += roundScore;
-                overAllScoreLabel.setText(String.format("Overall Score: %d", overAllScore));
-            }
-        });
-    }
-
-    void createDiceObjs() {
-        Dice[] array = new Dice[diceAmount];
-
-        for (int i = 0; i < diceAmount; i++) {
-            Dice tempDice = new Dice();
-            tempDice.createInit();
-            tempDice.diceIndex = i + 1;
-
-            array[i] = tempDice;
-        }
-
-        diceArr = array;
-    }
 
     void addEvents() {
         rollButton.setOnAction(event -> {
@@ -81,10 +35,10 @@ public class Game {
             });
         }
 
-        refreshButton.setOnAction(event -> {
-            // resets game
+        // resets game
+        restartButton.setOnAction(event -> {
             rollCount = 2;
-            refreshButton.setVisible(false);
+            restartButton.setVisible(false);
             rollButton.setVisible(true);
             curHandLabel.setText("Current Hand: ");
 
@@ -95,6 +49,25 @@ public class Game {
             curHandLabel.setId(null);
 
             playGame(diceArr);
+        });
+    }
+
+    void addEventToRollBtn(Dice[] diceArr) {
+        rollButton.setOnAction(event -> {
+            // roll die if not held
+            for (Dice dice : diceArr) {
+                dice.rollDieIfNotHeld();
+            }
+            rollCount -= 1;
+
+            // update game board
+            updateRoundScore();
+            updateRollsRemaining();
+            updateCurrHand();
+
+            // check if rolls remaining
+            checkIfGameEnd();
+
         });
     }
 
@@ -114,8 +87,8 @@ public class Game {
         scoreRollBox.setAlignment(Pos.CENTER);
         scoreRollBox.setPadding(new Insets(20));
 
-        refreshButton.setMinWidth(100);
-        refreshButton.setVisible(false);
+        restartButton.setMinWidth(100);
+        restartButton.setVisible(false);
 
         vboxButtons.setAlignment(Pos.CENTER);
 
@@ -124,14 +97,44 @@ public class Game {
         mainbox.getStylesheets().add("myStyles.css");
     }
 
+    void checkIfGameEnd() {
+        if (rollCount == 0) {
+            rollButton.setVisible(false);
+            restartButton.setVisible(true);
+
+            curHandLabel.setText(String.format("Winning Hand --> %s", currHand));
+            curHandLabel.setId("win-color");
+
+            overAllScore += roundScore;
+            overAllScoreLabel.setText(String.format("Overall Score: %d", overAllScore));
+        }
+    }
+
+    void createDiceObjs() {
+        Dice[] array = new Dice[diceAmount];
+
+        for (int i = 0; i < diceAmount; i++) {
+            Dice tempDice = new Dice();
+            tempDice.createInit();
+            tempDice.diceIndex = i + 1;
+
+            array[i] = tempDice;
+        }
+
+        diceArr = array;
+    }
+
     void initContainers() {
-        refreshButton = new Button("Click to Play Again!");
+        // init buttons
+        restartButton = new Button("Click to Play Again!");
         rollButton = new Button("Click to Play!");
 
+        // init Labels
         curHandLabel = new Label(String.format("Current Hand: %s", currHand));
         overAllScoreLabel = new Label(String.format("Overall Score: %d", overAllScore));
         rollsRemLabel = new Label(String.format("Rolls Remaining: %d", rollsRem));
 
+        // init horizontal box containers
         scoreRollBox = new HBox(curHandLabel, rollsRemLabel);
         overAllScoreHbox = new HBox(overAllScoreLabel);
         diceHbox = new HBox();
@@ -139,7 +142,8 @@ public class Game {
             diceHbox.getChildren().add(dice.diceSlot);
         }
 
-        vboxButtons = new VBox(rollButton, refreshButton);
+        // init vertical box containers
+        vboxButtons = new VBox(rollButton, restartButton);
         mainbox = new VBox(overAllScoreHbox, diceHbox, scoreRollBox, vboxButtons);
     }
 
@@ -147,7 +151,7 @@ public class Game {
         // Dice objs
         createDiceObjs();
 
-        // layout
+        // game board layout
         initContainers();
         addStyles();
 
@@ -157,15 +161,15 @@ public class Game {
 
     void playGame(Dice[] diceArr) {
         // updates rolls remaining
-        rollsRemLabel.setText(String.format("Rolls Remaining: %d", rollCount));
+        updateRollsRemaining();
 
         // initializes random dice
         Dice.createRandomStart(diceArr);
 
         rollButton.setText("Roll");
 
-        roundScore = Dice.findCurrScore(diceArr);
-        updateCurrHandDisplay();
+        updateRoundScore();
+        updateCurrHand();
     }
 
     public void StartGame(Stage primaryStage) {
@@ -178,7 +182,7 @@ public class Game {
         primaryStage.show();
     }
 
-    void updateCurrHandDisplay() {
+    void updateCurrHand() {
         switch (roundScore) {
             case 10:
                 currHand = "5 of a kind - 10 points";
@@ -199,7 +203,7 @@ public class Game {
                 currHand = "2 pairs - 4 points";
                 break;
             case 1:
-                currHand = "1 pair - 1 points";
+                currHand = "1 pair - 1 point";
                 break;
             default:
                 currHand = "No hand - 0 points";
@@ -207,5 +211,13 @@ public class Game {
         }
 
         curHandLabel.setText(String.format("Current Hand: %s", currHand));
+    }
+
+    void updateRollsRemaining() {
+        rollsRemLabel.setText(String.format("Rolls Remaining: %d", rollCount));
+    }
+
+    void updateRoundScore() {
+        roundScore = Dice.findCurrScore(diceArr);
     }
 }
