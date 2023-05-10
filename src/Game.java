@@ -8,13 +8,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Game {
-    int diceAmount = 5, rollCount = 2, roundScore = 0, overAllScore=0;
+    int diceAmount = 5, rollCount = 2, rollsRem = 0, roundScore = 0, overAllScore = 0;
     String currHand = "";
 
     Dice diceArr[];
 
     Button refreshButton, rollButton;
-    Label curHandLabel, rollsRem, rollsRemLabel, overAllScoreLabel;
+    Label curHandLabel, rollsRemLabel, overAllScoreLabel;
 
     HBox diceHbox, overAllScoreHbox, scoreRollBox;
     VBox vboxButtons, mainbox;
@@ -32,7 +32,7 @@ public class Game {
             }
 
             rollCount -= 1;
-            rollsRem.setText(Integer.toString(rollCount));
+            rollsRemLabel.setText(String.format("Rolls Remaining: %d", rollCount));
             roundScore = Dice.findCurrScore(diceArr);
 
             updateCurrHandDisplay();
@@ -109,7 +109,6 @@ public class Game {
         curHandLabel.setPadding(new Insets(0, 0, 0, 0));
 
         rollButton.setMinWidth(100);
-        rollsRem.setPadding(new Insets(0, 0, 0, 0));
         rollsRemLabel.setPadding(new Insets(0, 0, 0, 150));
 
         scoreRollBox.setAlignment(Pos.CENTER);
@@ -130,13 +129,10 @@ public class Game {
         rollButton = new Button("Click to Play!");
 
         curHandLabel = new Label(String.format("Current Hand: %s", currHand));
-
         overAllScoreLabel = new Label(String.format("Overall Score: %d", overAllScore));
+        rollsRemLabel = new Label(String.format("Rolls Remaining: %d", rollsRem));
 
-        rollsRem = new Label("0");
-        rollsRemLabel = new Label("Rolls Remaining: ");
-
-        scoreRollBox = new HBox(curHandLabel, rollsRemLabel, rollsRem);
+        scoreRollBox = new HBox(curHandLabel, rollsRemLabel);
         overAllScoreHbox = new HBox(overAllScoreLabel);
         diceHbox = new HBox();
         for (Dice dice : diceArr) {
@@ -161,7 +157,7 @@ public class Game {
 
     void playGame(Dice[] diceArr) {
         // updates rolls remaining
-        rollsRem.setText(Integer.toString(rollCount));
+        rollsRemLabel.setText(String.format("Rolls Remaining: %d", rollCount));
 
         // initializes random dice
         Dice.createRandomStart(diceArr);
