@@ -13,27 +13,27 @@ public class Game {
 
     Dice[] diceArr;
 
-    Button restartButton, rollButton;
+    Button restartBtn, clickToPlayBtn;
     Label curHandLabel, rollsRemLabel, overAllScoreLabel;
 
     HBox diceHbox, overAllScoreHbox, scoreRollBox;
     VBox vboxButtons, mainbox;
 
     void addEvents() {
-        rollButton.setOnAction(event -> {
-            for (Dice dice : diceArr) {
-                dice.diceSlot.setVisible(true);
-            }
+        clickToPlayBtn.setOnAction(event -> {
             // starts game
+            for (Dice dice : diceArr) {
+                dice.diceContainer.setVisible(true);
+            }
             playGame(diceArr);
             addEventToRollBtn(diceArr);
         });
 
-        // resets game
-        restartButton.setOnAction(event -> {
+        restartBtn.setOnAction(event -> {
+            // resets game
             rollCount = 2;
-            restartButton.setVisible(false);
-            rollButton.setVisible(true);
+            restartBtn.setVisible(false);
+            clickToPlayBtn.setVisible(true);
             curHandLabel.setText("Current Hand: ");
 
             for (Dice dice : diceArr) {
@@ -47,7 +47,7 @@ public class Game {
     }
 
     void addEventToRollBtn(Dice[] diceArr) {
-        rollButton.setOnAction(event -> {
+        clickToPlayBtn.setOnAction(event -> {
             // roll die if not held
             for (Dice dice : diceArr) {
                 dice.rollDieIfNotHeld();
@@ -75,14 +75,14 @@ public class Game {
 
         curHandLabel.setPadding(new Insets(0, 0, 0, 0));
 
-        rollButton.setMinWidth(100);
+        clickToPlayBtn.setMinWidth(100);
         rollsRemLabel.setPadding(new Insets(0, 0, 0, 150));
 
         scoreRollBox.setAlignment(Pos.CENTER);
         scoreRollBox.setPadding(new Insets(20));
 
-        restartButton.setMinWidth(100);
-        restartButton.setVisible(false);
+        restartBtn.setMinWidth(100);
+        restartBtn.setVisible(false);
 
         vboxButtons.setAlignment(Pos.CENTER);
 
@@ -93,8 +93,8 @@ public class Game {
 
     void checkIfGameEnd() {
         if (rollCount == 0) {
-            rollButton.setVisible(false);
-            restartButton.setVisible(true);
+            clickToPlayBtn.setVisible(false);
+            restartBtn.setVisible(true);
 
             curHandLabel.setText(String.format("Winning Hand --> %s", currHand));
             curHandLabel.setId("win-color");
@@ -106,8 +106,8 @@ public class Game {
 
     void initBtnLabelContainers() {
         // init buttons
-        restartButton = new Button("Click to Play Again!");
-        rollButton = new Button("Click to Play!");
+        restartBtn = new Button("Click to Play Again!");
+        clickToPlayBtn = new Button("Click to Play!");
 
         // init Labels
         curHandLabel = new Label(String.format("Current Hand: %s", currHand));
@@ -119,11 +119,11 @@ public class Game {
         overAllScoreHbox = new HBox(overAllScoreLabel);
         diceHbox = new HBox();
         for (Dice dice : diceArr) {
-            diceHbox.getChildren().add(dice.diceSlot);
+            diceHbox.getChildren().add(dice.diceContainer);
         }
 
         // init vertical box containers
-        vboxButtons = new VBox(rollButton, restartButton);
+        vboxButtons = new VBox(clickToPlayBtn, restartBtn);
         mainbox = new VBox(overAllScoreHbox, diceHbox, scoreRollBox, vboxButtons);
     }
 
@@ -141,14 +141,12 @@ public class Game {
     }
 
     void playGame(Dice[] diceArr) {
-        // updates rolls remaining
-        updateRollsRemaining();
-
         // initializes random dice
-        Dice.createRandomStart(diceArr);
+        Dice.restartGame(diceArr);
 
-        rollButton.setText("Roll");
+        clickToPlayBtn.setText("Roll");
 
+        updateRollsRemaining();
         updateRoundScore();
         updateCurrHand();
     }
