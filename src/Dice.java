@@ -1,6 +1,8 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Dice {
@@ -25,6 +27,7 @@ public class Dice {
 
         return dicerArr;
     }
+
     static Dice[] restartGame(Dice[] diceArray) {
         for (Dice die: diceArray) {
             die.getRandomDieVal();
@@ -32,6 +35,96 @@ public class Dice {
         }
 
         return diceArray;
+    }
+
+    static int findCurrScore(Dice[] diceArr) {
+        Map<Integer, Integer> map = findDieFreq(diceArr);
+
+        int freq1 = map.containsKey(1) ? map.get(1): 0;
+        int freq2 = map.containsKey(2) ? map.get(2): 0;
+        int freq3 = map.containsKey(3) ? map.get(3): 0;
+        int freq4 = map.containsKey(4) ? map.get(4): 0;
+        int freq5 = map.containsKey(5) ? map.get(5): 0;
+        int freq6 = map.containsKey(6) ? map.get(6): 0;
+
+        // 5 of a kind
+        if (freq1 == 5 || freq2 == 5 || freq3 == 5 || freq4 == 5 || freq5 == 5 || freq6 == 5) {
+            return 10;
+        }
+
+        // Straight
+        else if ((freq1 == 1 && freq2 == 1 && freq3 == 1 && freq4 == 1 && freq5 == 1) ||
+                (freq2 == 1 && freq3 == 1 && freq4 == 1 && freq5 == 1 && freq6 == 1)) {
+            return 8;
+        }
+
+        // 4 of a kind
+        else if (freq1 == 4 || freq2 == 4 || freq3 == 4 || freq4 == 4 || freq5 == 4 || freq6 == 4) {
+            return 7;
+        }
+
+        // Full house
+        else if ((freq1 == 2 || freq2 == 2 || freq3 == 2 || freq4 == 2 || freq5 == 2 || freq6 == 2) &&
+                (freq1 == 3 || freq2 == 3 || freq3 == 3 || freq4 == 3 || freq5 == 3 || freq6 == 3)) {
+            return 6;
+        }
+
+        // 3 of a kind
+        else if (freq1 == 3 || freq2 == 3 || freq3 == 3 || freq4 == 3 || freq5 == 3 || freq6 == 3) {
+            return 5;
+        }
+
+        // 2 pair
+        else if ((freq1 == 2 && freq2 == 2) || (freq1 == 2 && freq3 == 2) || (freq1 == 2 && freq4 == 2)
+                || (freq1 == 2 && freq5 == 2) || (freq1 == 2 && freq6 == 2) ||
+                ((freq2 == 2 && freq3 == 2) || (freq2 == 2 && freq4 == 2) || (freq2 == 2 && freq5 == 2)
+                        || (freq2 == 2 && freq6 == 2))
+                ||
+                ((freq3 == 2 && freq4 == 2) || (freq3 == 2 && freq5 == 2) || (freq3 == 2 && freq6 == 2)) ||
+                ((freq4 == 2 && freq5 == 2) || (freq4 == 2 && freq6 == 2)) ||
+                ((freq5 == 2 && freq6 == 2))) {
+            return 4;
+        }
+
+        // 2 of a kind
+        else if (freq1 == 2 || freq2 == 2 || freq3 == 2 || freq4 == 2 || freq5 == 2 || freq6 == 2) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    static Map<Integer, Integer> findDieFreq(Dice[] diceArr) {
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+
+        for (int i = 0; i < diceArr.length; i++){
+            int key = diceArr[i].diceValue;
+
+            if (map.containsKey(key)) {
+                int count = map.get(key);
+                map.put(key, count + 1);
+            }
+            else {
+                map.put(key, 1);
+            }
+        }
+
+        return map;
+    }
+
+    void getRandomDieVal() {
+        Random randNum = new Random();
+        this.diceValue = 1 + randNum.nextInt(6);
+    }
+
+    void rollDieIfNotHeld() {
+        // 1 held, 0 not held
+        if (held == 0) {
+            Random randNum = new Random();
+            diceValue = 1 + randNum.nextInt(6);
+            held = 1;
+            this.updateDieHeld();
+        }
     }
 
     void setDieContainer() {
@@ -61,110 +154,5 @@ public class Dice {
             diceContainer.setImage(diceImage);
             held = 0;
         }
-    }
-
-    void getRandomDieVal() {
-        Random randNum = new Random();
-        this.diceValue = 1 + randNum.nextInt(6);
-
-    }
-
-    void rollDieIfNotHeld() {
-        // 1 held, 0 not held
-        if (held == 0) {
-            Random randNum = new Random();
-            diceValue = 1 + randNum.nextInt(6);
-            held = 1;
-            this.updateDieHeld();
-        }
-    }
-
-    static int findCurrScore(Dice[] diceArr) {
-        int[] array = { 0, 0, 0, 0, 0, 0 };
-
-        for (Dice dice : diceArr) {
-            array = dice.findTally(array);
-        }
-
-        int found1 = array[0];
-        int found2 = array[1];
-        int found3 = array[2];
-        int found4 = array[3];
-        int found5 = array[4];
-        int found6 = array[5];
-
-        // 5 of a kind
-        if (found1 == 5 || found2 == 5 || found3 == 5 || found4 == 5 || found5 == 5 || found6 == 5) {
-            return 10;
-        }
-
-        // Straight
-        else if ((found1 == 1 && found2 == 1 && found3 == 1 && found4 == 1 && found5 == 1) ||
-                (found2 == 1 && found3 == 1 && found4 == 1 && found5 == 1 && found6 == 1)) {
-            return 8;
-        }
-
-        // 4 of a kind
-        else if (found1 == 4 || found2 == 4 || found3 == 4 || found4 == 4 || found5 == 4 || found6 == 4) {
-            return 7;
-        }
-
-        // Full house
-        else if ((found1 == 2 || found2 == 2 || found3 == 2 || found4 == 2 || found5 == 2 || found6 == 2) &&
-                (found1 == 3 || found2 == 3 || found3 == 3 || found4 == 3 || found5 == 3 || found6 == 3)) {
-            return 6;
-        }
-
-        // 3 of a kind
-        else if (found1 == 3 || found2 == 3 || found3 == 3 || found4 == 3 || found5 == 3 || found6 == 3) {
-            return 5;
-        }
-
-        // 2 pair
-        else if ((found1 == 2 && found2 == 2) || (found1 == 2 && found3 == 2) || (found1 == 2 && found4 == 2)
-                || (found1 == 2 && found5 == 2) || (found1 == 2 && found6 == 2) ||
-                ((found2 == 2 && found3 == 2) || (found2 == 2 && found4 == 2) || (found2 == 2 && found5 == 2)
-                        || (found2 == 2 && found6 == 2))
-                ||
-                ((found3 == 2 && found4 == 2) || (found3 == 2 && found5 == 2) || (found3 == 2 && found6 == 2)) ||
-                ((found4 == 2 && found5 == 2) || (found4 == 2 && found6 == 2)) ||
-                ((found5 == 2 && found6 == 2))) {
-            return 4;
-        }
-
-        // 2 of a kind
-        else if (found1 == 2 || found2 == 2 || found3 == 2 || found4 == 2 || found5 == 2 || found6 == 2) {
-            return 1;
-        }
-
-        return 0;
-    }
-
-    int[] findTally(int[] array) {
-        switch (diceValue) {
-            case 1:
-                array[0] = array[0] + 1;
-                break;
-            case 2:
-                array[1] = array[1] + 1;
-                break;
-            case 3:
-                array[2] = array[2] + 1;
-                break;
-            case 4:
-                array[3] = array[3] + 1;
-                break;
-            case 5:
-                array[4] = array[4] + 1;
-                break;
-            case 6:
-                array[5] = array[5] + 1;
-                break;
-
-            default:
-                System.out.println("DEBUG-ERROR");
-                break;
-        }
-        return array;
     }
 }
