@@ -88,7 +88,7 @@ public class Game {
 
         mainbox.setAlignment(Pos.CENTER);
         mainbox.setId("vbox");
-        mainbox.getStylesheets().add("myStyles.css");
+        mainbox.getStylesheets().add("/styles/myStyles.css");
     }
 
     void checkIfGameEnd() {

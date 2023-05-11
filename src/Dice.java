@@ -140,17 +140,17 @@ public class Dice {
     }
 
     void setDieImage() {
-        this.diceImage = new Image(String.format("file:./images/Dice%d.png", this.diceValue));
+        this.diceImage = new Image(String.format("file:./src/images/Dice%d.png", this.diceValue));
         this.diceContainer.setImage(this.diceImage);
     }
 
     void updateDieHeld() {
         if (this.held == 0) {
-            diceImage = new Image(String.format("file:./images/Dice%dHeld.png", this.diceValue));
+            diceImage = new Image(String.format("file:./src/images/Dice%dHeld.png", this.diceValue));
             diceContainer.setImage(diceImage);
             held = 1;
         } else {
-            diceImage = new Image(String.format("file:./images/Dice%d.png", this.diceValue));
+            diceImage = new Image(String.format("file:./src/images/Dice%d.png", this.diceValue));
             diceContainer.setImage(diceImage);
             held = 0;
         }
