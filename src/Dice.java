@@ -42,7 +42,7 @@ public class Dice {
         this.diceContainer.setVisible(false);
 
         this.diceContainer.setOnMousePressed(event -> {
-           this.updatePic();
+           this.updateDieHeld();
         });
     }
 
@@ -51,77 +51,15 @@ public class Dice {
         this.diceContainer.setImage(this.diceImage);
     }
 
-    void updatePic() {
-        switch (diceValue) {
-            case 1:
-                if (held == 0) {
-                    diceImage = new Image("file:./images/Dice1Held.png");
-                    diceContainer.setImage(diceImage);
-                    held = 1;
-                } else {
-                    diceImage = new Image("file:./images/Dice1.png");
-                    diceContainer.setImage(diceImage);
-                    held = 0;
-                }
-                break;
-            case 2:
-                if (held == 0) {
-                    diceImage = new Image("file:./images/Dice2Held.png");
-                    diceContainer.setImage(diceImage);
-                    held = 1;
-                } else {
-                    diceImage = new Image("file:./images/Dice2.png");
-                    diceContainer.setImage(diceImage);
-                    held = 0;
-                }
-                break;
-            case 3:
-                if (held == 0) {
-                    diceImage = new Image("file:./images/Dice3Held.png");
-                    diceContainer.setImage(diceImage);
-                    held = 1;
-                } else {
-                    diceImage = new Image("file:./images/Dice3.png");
-                    diceContainer.setImage(diceImage);
-                    held = 0;
-                }
-                break;
-            case 4:
-                if (held == 0) {
-                    diceImage = new Image("file:./images/Dice4Held.png");
-                    diceContainer.setImage(diceImage);
-                    held = 1;
-                } else {
-                    diceImage = new Image("file:./images/Dice4.png");
-                    diceContainer.setImage(diceImage);
-                    held = 0;
-                }
-                break;
-            case 5:
-                if (held == 0) {
-                    diceImage = new Image("file:./images/Dice5Held.png");
-                    diceContainer.setImage(diceImage);
-                    held = 1;
-                } else {
-                    diceImage = new Image("file:./images/Dice5.png");
-                    diceContainer.setImage(diceImage);
-                    held = 0;
-                }
-                break;
-            case 6:
-                if (held == 0) {
-                    diceImage = new Image("file:./images/Dice6Held.png");
-                    diceContainer.setImage(diceImage);
-                    held = 1;
-                } else {
-                    diceImage = new Image("file:./images/Dice6.png");
-                    diceContainer.setImage(diceImage);
-                    held = 0;
-                }
-                break;
-            default:
-                System.out.println("DEBUG-ERROR");
-                break;
+    void updateDieHeld() {
+        if (this.held == 0) {
+            diceImage = new Image(String.format("file:./images/Dice%dHeld.png", this.diceValue));
+            diceContainer.setImage(diceImage);
+            held = 1;
+        } else {
+            diceImage = new Image(String.format("file:./images/Dice%d.png", this.diceValue));
+            diceContainer.setImage(diceImage);
+            held = 0;
         }
     }
 
@@ -137,7 +75,7 @@ public class Dice {
             Random randNum = new Random();
             diceValue = 1 + randNum.nextInt(6);
             held = 1;
-            this.updatePic();
+            this.updateDieHeld();
         }
     }
 
