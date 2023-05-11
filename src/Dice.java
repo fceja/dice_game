@@ -10,24 +10,14 @@ public class Dice {
     int diceIndex;
 
     Image diceImage;
-    ImageView diceSlot;
+    ImageView diceContainer;
 
     static Dice[] createDice(int diceAmount) {
         Dice[] dicerArr = new Dice[diceAmount];
 
         for (int i = 0; i < diceAmount; i++){
             Dice tempDice = new Dice();
-            tempDice.diceImage = new Image("file:./images/Dice1.png");
-            tempDice.diceSlot = new ImageView(tempDice.diceImage);
-
-            tempDice.diceSlot.setPreserveRatio(true);
-            tempDice.diceSlot.setFitWidth(100);
-            tempDice.diceSlot.setVisible(false);
-
-            tempDice.diceSlot.setOnMousePressed(event -> {
-                tempDice.updatePic();
-            });
-
+            tempDice.setDieContainer();
             tempDice.diceIndex = i+1;
 
             dicerArr[i] = tempDice;
@@ -35,10 +25,30 @@ public class Dice {
 
         return dicerArr;
     }
+    static Dice[] restartGame(Dice[] diceArray) {
+        for (Dice die: diceArray) {
+            die.getRandomDieVal();
+            die.setDieImage();
+        }
 
-    void setDiePic() {
+        return diceArray;
+    }
+
+    void setDieContainer() {
+        this.diceContainer = new ImageView(this.diceImage);
+
+        this.diceContainer.setPreserveRatio(true);
+        this.diceContainer.setFitWidth(100);
+        this.diceContainer.setVisible(false);
+
+        this.diceContainer.setOnMousePressed(event -> {
+           this.updatePic();
+        });
+    }
+
+    void setDieImage() {
         this.diceImage = new Image(String.format("file:./images/Dice%d.png", this.diceValue));
-        this.diceSlot.setImage(this.diceImage);
+        this.diceContainer.setImage(this.diceImage);
     }
 
     void updatePic() {
@@ -46,66 +56,66 @@ public class Dice {
             case 1:
                 if (held == 0) {
                     diceImage = new Image("file:./images/Dice1Held.png");
-                    diceSlot.setImage(diceImage);
+                    diceContainer.setImage(diceImage);
                     held = 1;
                 } else {
                     diceImage = new Image("file:./images/Dice1.png");
-                    diceSlot.setImage(diceImage);
+                    diceContainer.setImage(diceImage);
                     held = 0;
                 }
                 break;
             case 2:
                 if (held == 0) {
                     diceImage = new Image("file:./images/Dice2Held.png");
-                    diceSlot.setImage(diceImage);
+                    diceContainer.setImage(diceImage);
                     held = 1;
                 } else {
                     diceImage = new Image("file:./images/Dice2.png");
-                    diceSlot.setImage(diceImage);
+                    diceContainer.setImage(diceImage);
                     held = 0;
                 }
                 break;
             case 3:
                 if (held == 0) {
                     diceImage = new Image("file:./images/Dice3Held.png");
-                    diceSlot.setImage(diceImage);
+                    diceContainer.setImage(diceImage);
                     held = 1;
                 } else {
                     diceImage = new Image("file:./images/Dice3.png");
-                    diceSlot.setImage(diceImage);
+                    diceContainer.setImage(diceImage);
                     held = 0;
                 }
                 break;
             case 4:
                 if (held == 0) {
                     diceImage = new Image("file:./images/Dice4Held.png");
-                    diceSlot.setImage(diceImage);
+                    diceContainer.setImage(diceImage);
                     held = 1;
                 } else {
                     diceImage = new Image("file:./images/Dice4.png");
-                    diceSlot.setImage(diceImage);
+                    diceContainer.setImage(diceImage);
                     held = 0;
                 }
                 break;
             case 5:
                 if (held == 0) {
                     diceImage = new Image("file:./images/Dice5Held.png");
-                    diceSlot.setImage(diceImage);
+                    diceContainer.setImage(diceImage);
                     held = 1;
                 } else {
                     diceImage = new Image("file:./images/Dice5.png");
-                    diceSlot.setImage(diceImage);
+                    diceContainer.setImage(diceImage);
                     held = 0;
                 }
                 break;
             case 6:
                 if (held == 0) {
                     diceImage = new Image("file:./images/Dice6Held.png");
-                    diceSlot.setImage(diceImage);
+                    diceContainer.setImage(diceImage);
                     held = 1;
                 } else {
                     diceImage = new Image("file:./images/Dice6.png");
-                    diceSlot.setImage(diceImage);
+                    diceContainer.setImage(diceImage);
                     held = 0;
                 }
                 break;
@@ -115,13 +125,10 @@ public class Dice {
         }
     }
 
-    static void createRandomStart(Dice[] diceArr) {
+    void getRandomDieVal() {
         Random randNum = new Random();
+        this.diceValue = 1 + randNum.nextInt(6);
 
-        for (Dice dice : diceArr) {
-            dice.diceValue = 1 + randNum.nextInt(6);
-            dice.setDiePic();
-        }
     }
 
     void rollDieIfNotHeld() {
