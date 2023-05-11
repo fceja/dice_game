@@ -129,7 +129,6 @@ public class Game {
 
     void initGameBoard() {
         // create Dice objs
-        diceArr = new Dice[diceAmount];
         diceArr = Dice.createDice(diceAmount);
 
         // game board layout
