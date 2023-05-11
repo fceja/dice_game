@@ -29,12 +29,6 @@ public class Game {
             addEventToRollBtn(diceArr);
         });
 
-        for (Dice dice : diceArr) {
-            dice.diceSlot.setOnMousePressed(event -> {
-                dice.updatePic();
-            });
-        }
-
         // resets game
         restartButton.setOnAction(event -> {
             rollCount = 2;

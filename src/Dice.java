@@ -19,6 +19,10 @@ public class Dice {
         diceSlot.setPreserveRatio(true);
         diceSlot.setFitWidth(100);
         diceSlot.setVisible(false);
+
+        diceSlot.setOnMousePressed(event -> {
+            updatePic();
+        });
     }
 
     void setDiePic() {
