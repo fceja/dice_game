@@ -37,25 +37,8 @@ public class Dice {
     }
 
     void setDiePic() {
-        if (diceValue == 1) {
-            diceImage = new Image("file:./images/Dice1.png");
-            diceSlot.setImage(diceImage);
-        } else if (diceValue == 2) {
-            diceImage = new Image("file:./images/Dice2.png");
-            diceSlot.setImage(diceImage);
-        } else if (diceValue == 3) {
-            diceImage = new Image("file:./images/Dice3.png");
-            diceSlot.setImage(diceImage);
-        } else if (diceValue == 4) {
-            diceImage = new Image("file:./images/Dice4.png");
-            diceSlot.setImage(diceImage);
-        } else if (diceValue == 5) {
-            diceImage = new Image("file:./images/Dice5.png");
-            diceSlot.setImage(diceImage);
-        } else {
-            diceImage = new Image("file:./images/Dice6.png");
-            diceSlot.setImage(diceImage);
-        }
+        this.diceImage = new Image(String.format("file:./images/Dice%d.png", this.diceValue));
+        this.diceSlot.setImage(this.diceImage);
     }
 
     void updatePic() {
