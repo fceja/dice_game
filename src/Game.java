@@ -11,7 +11,7 @@ public class Game {
     int diceAmount = 5, rollCount = 2, rollsRem = 0, roundScore = 0, overAllScore = 0;
     String currHand = "";
 
-    Dice diceArr[];
+    Dice[] diceArr;
 
     Button restartButton, rollButton;
     Label curHandLabel, rollsRemLabel, overAllScoreLabel;
@@ -104,21 +104,7 @@ public class Game {
         }
     }
 
-    void createDiceObjs() {
-        Dice[] array = new Dice[diceAmount];
-
-        for (int i = 0; i < diceAmount; i++) {
-            Dice tempDice = new Dice();
-            tempDice.createInit();
-            tempDice.diceIndex = i + 1;
-
-            array[i] = tempDice;
-        }
-
-        diceArr = array;
-    }
-
-    void initContainers() {
+    void initBtnLabelContainers() {
         // init buttons
         restartButton = new Button("Click to Play Again!");
         rollButton = new Button("Click to Play!");
@@ -142,11 +128,12 @@ public class Game {
     }
 
     void initGameBoard() {
-        // Dice objs
-        createDiceObjs();
+        // create Dice objs
+        diceArr = new Dice[diceAmount];
+        diceArr = Dice.createDice(diceAmount);
 
         // game board layout
-        initContainers();
+        initBtnLabelContainers();
         addStyles();
 
         // events

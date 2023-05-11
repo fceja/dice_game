@@ -12,17 +12,28 @@ public class Dice {
     Image diceImage;
     ImageView diceSlot;
 
-    void createInit() {
-        diceImage = new Image("file:./images/Dice1.png");
-        diceSlot = new ImageView(diceImage);
+    static Dice[] createDice(int diceAmount) {
+        Dice[] dicerArr = new Dice[diceAmount];
 
-        diceSlot.setPreserveRatio(true);
-        diceSlot.setFitWidth(100);
-        diceSlot.setVisible(false);
+        for (int i = 0; i < diceAmount; i++){
+            Dice tempDice = new Dice();
+            tempDice.diceImage = new Image("file:./images/Dice1.png");
+            tempDice.diceSlot = new ImageView(tempDice.diceImage);
 
-        diceSlot.setOnMousePressed(event -> {
-            updatePic();
-        });
+            tempDice.diceSlot.setPreserveRatio(true);
+            tempDice.diceSlot.setFitWidth(100);
+            tempDice.diceSlot.setVisible(false);
+
+            tempDice.diceSlot.setOnMousePressed(event -> {
+                tempDice.updatePic();
+            });
+
+            tempDice.diceIndex = i+1;
+
+            dicerArr[i] = tempDice;
+        }
+
+        return dicerArr;
     }
 
     void setDiePic() {
