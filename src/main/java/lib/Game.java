@@ -22,8 +22,8 @@ public class Game {
     VBox vboxButtons, mainbox;
 
     void addEvents() {
+        // starts game
         clickToPlayBtn.setOnAction(event -> {
-            // starts game
             for (Dice dice : diceArr) {
                 dice.diceContainer.setVisible(true);
             }
@@ -31,8 +31,8 @@ public class Game {
             addEventToRollBtn(diceArr);
         });
 
+        // resets game
         restartBtn.setOnAction(event -> {
-            // resets game
             rollCount = 2;
             restartBtn.setVisible(false);
             clickToPlayBtn.setVisible(true);
@@ -44,11 +44,13 @@ public class Game {
 
             curHandLabel.setId(null);
 
+            // start game
             playGame(diceArr);
         });
     }
 
     void addEventToRollBtn(Dice[] diceArr) {
+        // when roll button is clicked
         clickToPlayBtn.setOnAction(event -> {
             // roll die if not held
             for (Dice dice : diceArr) {
