@@ -167,30 +167,14 @@ public class Game {
 
     void updateCurrHand() {
         switch (roundScore) {
-            case 10:
-                currHand = "5 of a kind - 10 points";
-                break;
-            case 8:
-                currHand = "Straight - 8 points";
-                break;
-            case 7:
-                currHand = "4 of kind - 7 points";
-                break;
-            case 6:
-                currHand = "Full House - 6 points";
-                break;
-            case 5:
-                currHand = "3 of a kind - 5 points";
-                break;
-            case 4:
-                currHand = "2 pairs - 4 points";
-                break;
-            case 1:
-                currHand = "1 pair - 1 point";
-                break;
-            default:
-                currHand = "No hand - 0 points";
-                break;
+            case 10 -> currHand = "5 of a kind - 10 points";
+            case 8 -> currHand = "Straight - 8 points";
+            case 7 -> currHand = "4 of kind - 7 points";
+            case 6 -> currHand = "Full House - 6 points";
+            case 5 -> currHand = "3 of a kind - 5 points";
+            case 4 -> currHand = "2 pairs - 4 points";
+            case 1 -> currHand = "1 pair - 1 point";
+            default -> currHand = "No hand - 0 points";
         }
 
         curHandLabel.setText(String.format("Current Hand: %s", currHand));

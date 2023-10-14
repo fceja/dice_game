@@ -31,13 +31,12 @@ public class Dice {
         return diceArray;
     }
 
-    static Dice[] restartGame(Dice[] diceArray) {
+    static void restartGame(Dice[] diceArray) {
         for (Dice die : diceArray) {
             die.getRandomDieVal();
             die.setDieImage();
         }
 
-        return diceArray;
     }
 
     static int findCurrScore(Dice[] diceArr) {
@@ -68,8 +67,8 @@ public class Dice {
     static Map<Integer, Integer> findDieFreq(Dice[] diceArr) {
         Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 
-        for (int i = 0; i < diceArr.length; i++) {
-            int key = diceArr[i].diceValue;
+        for (Dice dice : diceArr) {
+            int key = dice.diceValue;
 
             if (map.containsKey(key)) {
                 int count = map.get(key);
