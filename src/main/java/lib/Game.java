@@ -91,7 +91,7 @@ public class Game {
         mainbox.setAlignment(Pos.CENTER);
         mainbox.setId("vbox");
 
-        mainbox.getStylesheets().add("/main/java/resources/styles/myStyles.css");
+        mainbox.getStylesheets().add("/main/java/resources/styles/Game.css");
     }
 
     void checkIfGameEnd() {
