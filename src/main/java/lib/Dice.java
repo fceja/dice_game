@@ -2,6 +2,8 @@ package lib;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Random;
@@ -16,17 +18,17 @@ public class Dice {
     ImageView diceContainer;
 
     static Dice[] createDice(int diceAmount) {
-        Dice[] dicerArr = new Dice[diceAmount];
+        Dice[] diceArray = new Dice[diceAmount];
 
         for (int i = 0; i < diceAmount; i++) {
             Dice tempDice = new Dice();
             tempDice.setDieContainer();
             tempDice.diceIndex = i + 1;
 
-            dicerArr[i] = tempDice;
+            diceArray[i] = tempDice;
         }
 
-        return dicerArr;
+        return diceArray;
     }
 
     static Dice[] restartGame(Dice[] diceArray) {
@@ -41,55 +43,23 @@ public class Dice {
     static int findCurrScore(Dice[] diceArr) {
         Map<Integer, Integer> map = findDieFreq(diceArr);
 
-        int freq1 = map.containsKey(1) ? map.get(1) : 0;
-        int freq2 = map.containsKey(2) ? map.get(2) : 0;
-        int freq3 = map.containsKey(3) ? map.get(3) : 0;
-        int freq4 = map.containsKey(4) ? map.get(4) : 0;
-        int freq5 = map.containsKey(5) ? map.get(5) : 0;
-        int freq6 = map.containsKey(6) ? map.get(6) : 0;
+        int maxFrequency = Collections.max(map.values());
+        int distinctNumbers = map.size();
 
-        // 5 of a kind
-        if (freq1 == 5 || freq2 == 5 || freq3 == 5 || freq4 == 5 || freq5 == 5 || freq6 == 5) {
-            return 10;
-        }
-
-        // Straight
-        else if ((freq1 == 1 && freq2 == 1 && freq3 == 1 && freq4 == 1 && freq5 == 1) ||
-                (freq2 == 1 && freq3 == 1 && freq4 == 1 && freq5 == 1 && freq6 == 1)) {
-            return 8;
-        }
-
-        // 4 of a kind
-        else if (freq1 == 4 || freq2 == 4 || freq3 == 4 || freq4 == 4 || freq5 == 4 || freq6 == 4) {
-            return 7;
-        }
-
-        // Full house
-        else if ((freq1 == 2 || freq2 == 2 || freq3 == 2 || freq4 == 2 || freq5 == 2 || freq6 == 2) &&
-                (freq1 == 3 || freq2 == 3 || freq3 == 3 || freq4 == 3 || freq5 == 3 || freq6 == 3)) {
-            return 6;
-        }
-
-        // 3 of a kind
-        else if (freq1 == 3 || freq2 == 3 || freq3 == 3 || freq4 == 3 || freq5 == 3 || freq6 == 3) {
-            return 5;
-        }
-
-        // 2 pair
-        else if ((freq1 == 2 && freq2 == 2) || (freq1 == 2 && freq3 == 2) || (freq1 == 2 && freq4 == 2)
-                || (freq1 == 2 && freq5 == 2) || (freq1 == 2 && freq6 == 2) ||
-                ((freq2 == 2 && freq3 == 2) || (freq2 == 2 && freq4 == 2) || (freq2 == 2 && freq5 == 2)
-                        || (freq2 == 2 && freq6 == 2))
-                ||
-                ((freq3 == 2 && freq4 == 2) || (freq3 == 2 && freq5 == 2) || (freq3 == 2 && freq6 == 2)) ||
-                ((freq4 == 2 && freq5 == 2) || (freq4 == 2 && freq6 == 2)) ||
-                ((freq5 == 2 && freq6 == 2))) {
-            return 4;
-        }
-
-        // 2 of a kind
-        else if (freq1 == 2 || freq2 == 2 || freq3 == 2 || freq4 == 2 || freq5 == 2 || freq6 == 2) {
-            return 1;
+        if (maxFrequency == 5) {
+            return 10; // 5 of a kind
+        } else if (distinctNumbers == 1 && maxFrequency == 1) {
+            return 8; // Straight
+        } else if (maxFrequency == 4) {
+            return 7; // 4 of a kind
+        } else if (distinctNumbers == 2 && (map.containsValue(2) && map.containsValue(3))) {
+            return 6; // Full house
+        } else if (maxFrequency == 3) {
+            return 5; // 3 of a kind
+        } else if (distinctNumbers == 3 && maxFrequency == 2) {
+            return 4; // 2 pair
+        } else if (maxFrequency == 2) {
+            return 1; // 2 of a kind
         }
 
         return 0;
