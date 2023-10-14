@@ -1,6 +1,7 @@
+package lib;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Random;
@@ -17,10 +18,10 @@ public class Dice {
     static Dice[] createDice(int diceAmount) {
         Dice[] dicerArr = new Dice[diceAmount];
 
-        for (int i = 0; i < diceAmount; i++){
+        for (int i = 0; i < diceAmount; i++) {
             Dice tempDice = new Dice();
             tempDice.setDieContainer();
-            tempDice.diceIndex = i+1;
+            tempDice.diceIndex = i + 1;
 
             dicerArr[i] = tempDice;
         }
@@ -29,7 +30,7 @@ public class Dice {
     }
 
     static Dice[] restartGame(Dice[] diceArray) {
-        for (Dice die: diceArray) {
+        for (Dice die : diceArray) {
             die.getRandomDieVal();
             die.setDieImage();
         }
@@ -40,12 +41,12 @@ public class Dice {
     static int findCurrScore(Dice[] diceArr) {
         Map<Integer, Integer> map = findDieFreq(diceArr);
 
-        int freq1 = map.containsKey(1) ? map.get(1): 0;
-        int freq2 = map.containsKey(2) ? map.get(2): 0;
-        int freq3 = map.containsKey(3) ? map.get(3): 0;
-        int freq4 = map.containsKey(4) ? map.get(4): 0;
-        int freq5 = map.containsKey(5) ? map.get(5): 0;
-        int freq6 = map.containsKey(6) ? map.get(6): 0;
+        int freq1 = map.containsKey(1) ? map.get(1) : 0;
+        int freq2 = map.containsKey(2) ? map.get(2) : 0;
+        int freq3 = map.containsKey(3) ? map.get(3) : 0;
+        int freq4 = map.containsKey(4) ? map.get(4) : 0;
+        int freq5 = map.containsKey(5) ? map.get(5) : 0;
+        int freq6 = map.containsKey(6) ? map.get(6) : 0;
 
         // 5 of a kind
         if (freq1 == 5 || freq2 == 5 || freq3 == 5 || freq4 == 5 || freq5 == 5 || freq6 == 5) {
@@ -97,14 +98,13 @@ public class Dice {
     static Map<Integer, Integer> findDieFreq(Dice[] diceArr) {
         Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 
-        for (int i = 0; i < diceArr.length; i++){
+        for (int i = 0; i < diceArr.length; i++) {
             int key = diceArr[i].diceValue;
 
             if (map.containsKey(key)) {
                 int count = map.get(key);
                 map.put(key, count + 1);
-            }
-            else {
+            } else {
                 map.put(key, 1);
             }
         }
@@ -135,22 +135,23 @@ public class Dice {
         this.diceContainer.setVisible(false);
 
         this.diceContainer.setOnMousePressed(event -> {
-           this.updateDieHeld();
+            this.updateDieHeld();
         });
     }
 
     void setDieImage() {
-        this.diceImage = new Image(String.format("file:./src/images/Dice%d.png", this.diceValue));
+        this.diceImage = new Image(String.format("file:./src/main/java/resources/images/Dice%d.png", this.diceValue));
         this.diceContainer.setImage(this.diceImage);
     }
 
     void updateDieHeld() {
         if (this.held == 0) {
-            diceImage = new Image(String.format("file:./src/images/Dice%dHeld.png", this.diceValue));
+            diceImage = new Image(
+                    String.format("file:./src/main/java/resources/images/Dice%dHeld.png", this.diceValue));
             diceContainer.setImage(diceImage);
             held = 1;
         } else {
-            diceImage = new Image(String.format("file:./src/images/Dice%d.png", this.diceValue));
+            diceImage = new Image(String.format("file:./src/main/java/resources/images/Dice%d.png", this.diceValue));
             diceContainer.setImage(diceImage);
             held = 0;
         }

@@ -1,10 +1,12 @@
-import javafx.scene.Scene;
+package lib;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
-import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Game {
@@ -88,7 +90,8 @@ public class Game {
 
         mainbox.setAlignment(Pos.CENTER);
         mainbox.setId("vbox");
-        mainbox.getStylesheets().add("/styles/myStyles.css");
+
+        mainbox.getStylesheets().add("/main/java/resources/styles/myStyles.css");
     }
 
     void checkIfGameEnd() {
