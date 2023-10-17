@@ -1,0 +1,9 @@
+# version: '3.8'
+version: "4.24.2"
+services:
+  java-app:
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    ports:
+      - 8080:8080
