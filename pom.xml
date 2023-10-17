@@ -4,8 +4,23 @@
     <artifactId>dice_game</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <javafx.system.path>/Library/JavaFx/macos/javafx-sdk-21/lib/
+                </javafx.system.path>
+            </properties>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <properties>
+                <javafx.system.path>/home/workspace/app_lib/javafx-sdk-21/lib</javafx.system.path>
+            </properties>
+        </profile>
+    </profiles>
     <properties>
-        <javafx.system.path>/Library/JavaFX/macos/javafx-sdk-21/lib</javafx.system.path>
+        <javafx.system.path>/Library/JavaFx/macos/javafx-sdk-21/lib/</javafx.system.path>
     </properties>
     <dependencies>
         <dependency>
