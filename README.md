@@ -1,12 +1,7 @@
-## dice_game
-
-## Description
-
+# Description
 A poker style game with Dice.
 
-## Screenshot
-
-![alt text](src/main/java/resources/images/screenshot/screenshot-ui.png "Screenshot of UI")
+<br/>
 
 ## Installation and Execution
 
@@ -23,8 +18,30 @@ A poker style game with Dice.
 
 3. Compile project with maven
 
-   - Note: may need to update paths in `pom.xml` to user installed paths
-   - mvn clean install
+   - Note: may need to update paths in `pom.xml` to project paths.
+   - ```
+     mvn clean install
+     ```
 
 4. Execute:
-   - java --module-path {path_to_javafx_lib} --add-modules javafx.controls,javafx.fxml -jar target/jar-output/dice_game-1.0.0.jar
+   - ```
+     java --module-path {path_to_javafx_lib} --add-modules javafx.controls,javafx.fxml -jar target/jar-output/dice_game-1.0.0.jar
+     ```
+
+<br/>
+
+## Screenshot
+![alt text](src/main/java/resources/images/screenshot/screenshot-ui.png "Screenshot of UI")
+
+<br/>
+
+## Tools and Technologies
+<p>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer">
+    <img 
+      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-plain.svg"
+      alt="javascript"
+      width="40"
+      height="40"
+    /></a>
+</p>
